@@ -56,6 +56,8 @@ class ConveyorController(Node):
 
         if request.enable:
             self.enabled = request.enable
+            self.client.write_register(0x8001, self.direction)
+            self.client.write_register(0x8002, int(self.speed * 327.68))
             self.client.write_register(0x8000, self.enabled)
             response.success = True
             response.message = "Conveyor On"
@@ -64,6 +66,8 @@ class ConveyorController(Node):
         if not request.enable:
             self.enabled = request.enable
             self.client.write_register(0x8000, self.enabled)
+            self.speed = 0.0
+            self.direction = 0
             response.success = True
             response.message = "Conveyor Off"
             return response
@@ -71,6 +75,12 @@ class ConveyorController(Node):
 
         #define set state callback (speed/direction)
     def set_conveyor_state_cb(self, request: SetConveyorState.Request, response: SetConveyorState.Response):
+        if not self.enabled:
+            self.get_logger().error("Conveyor must be enabled first")
+            response.success = False
+            response.message = "Conveyor must be enabled first"
+            return response
+
         self.get_logger().info(f"Speed: {request.speed}, direction: {request.direction}")
         
         if request.speed < 0 or request.speed > 100:
@@ -95,10 +105,15 @@ class ConveyorController(Node):
    
 def main(args=None):
     rclpy.init(args=args)
-    node = ConveyorController()
-    rclpy.spin(node)
-    rclpy.shutdown()
-    node.client.close() 
+    conveyor = ConveyorController()
+    conveyor.get_logger().info("Conveyor controller node is running")
+
+    try: 
+        rclpy.spin(conveyor)
+    except KeyboardInterrupt as ex:
+        pass
+
+    conveyor.client.close() 
 
 if __name__ == "__main__":
     main()

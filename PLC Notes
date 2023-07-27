@@ -2,12 +2,13 @@ Ran APRS_Main and APRS_Safety projects on TwinCAT
 EL Data (M:)>mfg_robotics>agility_performance>Safety>...
 
 
-* To avoid CoDeSyS.user error message when trying to load PLC solutions:
+*To avoid CoDeSyS.user error message when trying to load PLC solutions:
 
 “Type register editor in Windows Start, right click and choose run as an admin.
 In the register editor, go to HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa.
 Under a subkey you should see FipsAlgorithmPolicy. Changed the "enabled" value to 0 or simply delete this register. Restart Visual Studio.”
-`https://stackoverflow.com/questions/71649887/twincat-project-build-fails-with-unspecified-error`
+
+https://stackoverflow.com/questions/71649887/twincat-project-build-fails-with-unspecified-error
 
 Admin Password to connect: APRS_Safety
 

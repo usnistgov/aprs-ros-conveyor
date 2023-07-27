@@ -14,7 +14,7 @@ ROS2 package for controlling the conveyor belt in the NIST APRS Lab
 * Run container in VSCode
 * Clone this package with:
 
-    `git clone [https://github.com](https://github.com/usnistgov/aprs-ros-conveyor.git)`
+    `git clone https://github.com/usnistgov/aprs-ros-conveyor.git`
 
   
 ## Instructions for Running the Software
